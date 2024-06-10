@@ -31,6 +31,15 @@ func main() {
 	html := strings.Replace(string(template), "{{.Body}}", string(content), 1)
 	html = strings.Replace(html, "{{.Title}}", fileName, 1)
 
-	fmt.Println(html)
-	fmt.Println("Build page")
+	err = os.MkdirAll("out", 0755)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = os.WriteFile("./out/"+fileName+".html", []byte(html), 0644)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println("Build page complete")
 }
