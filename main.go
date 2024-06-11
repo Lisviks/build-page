@@ -28,8 +28,16 @@ func main() {
 	ext := filepath.Ext(fileNameWithExt)
 	fileName := strings.TrimSuffix(fileNameWithExt, ext)
 
+	splitTitle := strings.Split(fileName, "-")
+
+	for i, word := range splitTitle {
+		splitTitle[i] = strings.ToUpper(string(word[0])) + word[1:]
+	}
+
+	title := strings.Join(splitTitle, " ")
+
 	html := strings.Replace(string(template), "{{Body}}", string(content), 1)
-	html = strings.Replace(html, "{{Title}}", fileName, 1)
+	html = strings.Replace(html, "{{Title}}", title, 1)
 
 	err = os.MkdirAll("out", 0755)
 	if err != nil {
