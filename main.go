@@ -27,6 +27,13 @@ func main() {
 	fileNameWithExt := filepath.Base(filePath)
 	ext := filepath.Ext(fileNameWithExt)
 	fileName := strings.TrimSuffix(fileNameWithExt, ext)
+	var outPath string
+
+	if len(args) == 3 {
+		outPath = filepath.Join(".", args[2])
+	} else {
+		outPath = filepath.Join(".", "out")
+	}
 
 	splitTitle := strings.Split(fileName, "-")
 
@@ -39,12 +46,15 @@ func main() {
 	html := strings.Replace(string(template), "{{Body}}", string(content), 1)
 	html = strings.Replace(html, "{{Title}}", title, 1)
 
-	err = os.MkdirAll("out", 0755)
+	err = os.MkdirAll(outPath, 0755)
+
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	err = os.WriteFile("./out/"+fileName+".html", []byte(html), 0644)
+	filePath = filepath.Join(outPath, fileName+".html")
+
+	err = os.WriteFile(filePath, []byte(html), 0644)
 	if err != nil {
 		log.Fatal(err)
 	}
