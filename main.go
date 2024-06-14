@@ -27,6 +27,7 @@ func main() {
 	fileNameWithExt := filepath.Base(filePath)
 	ext := filepath.Ext(fileNameWithExt)
 	fileName := strings.TrimSuffix(fileNameWithExt, ext)
+
 	var outPath string
 
 	if len(args) == 3 {
